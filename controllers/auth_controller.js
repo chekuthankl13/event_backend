@@ -100,7 +100,7 @@ export const userLogin = asyncHandler(async (req, res) => {
             process.env.SECERT_KEY,
             { expiresIn: "2d" }
         )
-        res.status(200).json({ status: 200, message: "user logggedin successfully", token })
+        res.status(200).json({ status: 200, message: "user logggedin successfully", token, email: rows[0].email, name: rows[0].name, phone: rows[0].phone })
     } else {
         res.status(404)
         throw new Error("Invalid credentials !!");
@@ -145,19 +145,19 @@ export const userRegister = asyncHandler(async (req, res) => {
     console.log("1");
 
     if (rows.length == 0) {
-       
+
 
         const hashPsw = await bcrypt.hash(password, 10)
-        
+
 
         const formData = { name, email, phone, password: hashPsw }
-        
 
-        const [{affectedRows}] = await dbConnection.query(
+
+        const [{ affectedRows }] = await dbConnection.query(
             `INSERT INTO ${db}.users set ?`,
             formData
         )
-       
+
 
         if (affectedRows == 1) {
             res.status(200).json({ status: 200, message: "user successfully registered !!" })
