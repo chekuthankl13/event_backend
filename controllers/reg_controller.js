@@ -6,7 +6,7 @@ const db = process.env.DB
 export const register = asyncHandler(async (req, res) => {
 
     const user_id = req.userData.id
-    console.log(user_id);
+
 
     if (!req.body) {
         res.status(400)
@@ -91,7 +91,7 @@ export const register = asyncHandler(async (req, res) => {
 
 export const getRegistered = asyncHandler(async (req, res) => {
     const id = req.userData.id
-    console.log("1 ");
+
 
     const [rows] = await dbConnection.query(
         `SELECT
@@ -99,6 +99,7 @@ export const getRegistered = asyncHandler(async (req, res) => {
             e.title AS event_name,
             e.location,
             e.description,
+            e.date,
             r.name,
             r.email,
             r.phone
@@ -108,7 +109,7 @@ export const getRegistered = asyncHandler(async (req, res) => {
         `,
         id
     )
-    console.log("2");
+
 
     res.status(200).json({ status: 200, message: "user registartions", data: rows })
 })
